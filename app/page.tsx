@@ -1,65 +1,73 @@
-import Image from "next/image";
+"use client";
+
+import { nanoid } from "nanoid";
+import { useRouter } from "next/navigation";
+import { Plus, Users, Zap, LayoutDashboard } from "lucide-react";
 
 export default function Home() {
+  const router = useRouter();
+
+  const createRoom = () => {
+    const roomId = nanoid(10);
+    router.push(`/room/${roomId}`);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <main className="min-h-screen flex items-center justify-center p-6 bg-slate-950 overflow-hidden relative">
+      {/* Background patterns */}
+      <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-blue-600 blur-[120px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-purple-600 blur-[120px] animate-pulse delay-1000" />
+      </div>
+
+      <div className="max-w-4xl w-full relative z-10 flex flex-col md:flex-row items-center gap-16">
+        <div className="flex-1 space-y-8 text-center md:text-left">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-bold uppercase tracking-wider">
+            <Zap className="w-4 h-4 fill-current" />
+            Plan Agile Faster
+          </div>
+
+          <div className="space-y-4">
+            <h1 className="text-6xl md:text-7xl font-extrabold text-white tracking-tighter">
+              Planning <span className="text-blue-500">Poker</span> Online
+            </h1>
+            <p className="text-xl text-slate-400 max-w-lg leading-relaxed">
+              Estime suas histórias de usuário em tempo real com sua equipe de forma simples, rápida e gratuita.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
+            <button
+              onClick={createRoom}
+              className="w-full sm:w-auto px-8 h-16 bg-blue-600 hover:bg-blue-500 text-white text-lg font-bold rounded-2xl transition-all shadow-xl shadow-blue-900/40 active:scale-95 flex items-center justify-center gap-3 group"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              <Plus className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" />
+              Criar Nova Sala
+            </button>
+            <div className="hidden sm:flex items-center gap-3 px-6 h-16 bg-slate-900 border border-slate-800 text-slate-400 rounded-2xl font-medium cursor-not-allowed">
+              <Users className="w-5 h-5" />
+              1.2k Ativos Agora
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="flex-1 hidden md:block relative">
+          <div className="grid grid-cols-2 gap-4">
+            {[1, 2, 3, 5].map((val, idx) => (
+              <div
+                key={val}
+                className={`p-12 rounded-3xl border-2 border-slate-800 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center text-5xl font-bold text-slate-600 shadow-2xl transition-all duration-700 hover:scale-105 hover:border-slate-700 hover:text-blue-500 translate-y-${idx * 4}`}
+              >
+                {val}
+              </div>
+            ))}
+          </div>
         </div>
-      </main>
-    </div>
+      </div>
+
+      <footer className="absolute bottom-10 text-slate-600 text-sm font-medium">
+        © 2026 Online Planning Poker • Built with Next.js & Socket.io
+      </footer>
+    </main>
   );
 }
