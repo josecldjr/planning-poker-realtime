@@ -44,10 +44,7 @@ export default function Home() {
               <Plus className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" />
               Criar Nova Sala
             </button>
-            <div className="hidden sm:flex items-center gap-3 px-6 h-16 bg-slate-900 border border-slate-800 text-slate-400 rounded-2xl font-medium cursor-not-allowed">
-              <Users className="w-5 h-5" />
-              1.2k Ativos Agora
-            </div>
+            
           </div>
         </div>
 
