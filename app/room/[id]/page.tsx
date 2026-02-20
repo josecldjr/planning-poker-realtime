@@ -30,6 +30,7 @@ export default function Room({ params }: { params: Promise<{ id: string }> }) {
   useEffect(() => {
     const savedName = localStorage.getItem("userName");
     if (savedName) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setUserName(savedName);
     }
   }, []);

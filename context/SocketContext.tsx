@@ -33,6 +33,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       console.log("Disconnected from Socket.io");
     });
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSocket(socketInstance);
 
     return () => {

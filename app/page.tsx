@@ -2,7 +2,7 @@
 
 import { nanoid } from "nanoid";
 import { useRouter } from "next/navigation";
-import { Plus, Users, Zap, LayoutDashboard } from "lucide-react";
+import { Plus, Zap } from "lucide-react";
 
 export default function Home() {
   const router = useRouter();

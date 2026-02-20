@@ -13,6 +13,7 @@ export default function NameModal({ onJoin, isOpen }: NameModalProps) {
   const [isBrowser, setIsBrowser] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsBrowser(true);
     const savedName = localStorage.getItem("userName");
     if (savedName) {
