@@ -16,6 +16,11 @@ interface User {
   vote: string | number | null;
 }
 
+interface RoomUpdateData {
+  users: User[];
+  revealed: boolean;
+}
+
 export default function Room({ params }: { params: Promise<{ id: string }> }) {
   const { id: roomId } = use(params);
   const { socket, isConnected } = useSocket();
@@ -41,7 +46,7 @@ export default function Room({ params }: { params: Promise<{ id: string }> }) {
 
     socket.emit("join-room", { roomId, userName });
 
-    socket.on("room-update", ({ users, revealed }) => {
+    socket.on("room-update", ({ users, revealed }: RoomUpdateData) => {
       setUsers(users);
       setRevealed(revealed);
     });
