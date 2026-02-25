@@ -6,7 +6,9 @@ import { useSocket } from "@/context/SocketContext";
 import NameModal from "@/components/NameModal";
 import UserAvatar from "@/components/UserAvatar";
 import VotingCard from "@/components/VotingCard";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Share2, RefreshCw, Eye, LogOut, Trophy, CheckCheck, Users } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const FIBONACCI_DECK = ["0", "1", "2", "3", "5", "8", "13", "21", "?", "☕"];
 
@@ -25,6 +27,7 @@ export default function Room({ params }: { params: Promise<{ id: string }> }) {
   const { id: roomId } = use(params);
   const { socket, isConnected } = useSocket();
   const router = useRouter();
+  const { t } = useTranslation();
 
   const [userName, setUserName] = useState<string | null>(null);
   const [users, setUsers] = useState<User[]>([]);
@@ -109,24 +112,28 @@ export default function Room({ params }: { params: Promise<{ id: string }> }) {
             P
           </div>
           <div className="hidden sm:block">
-            <h1 className="font-bold tracking-tight">Planning Poker</h1>
-            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Sala #{roomId.slice(0, 6)}</p>
+            <h1 className="font-bold tracking-tight">{t("room.title")}</h1>
+            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">
+              {t("room.roomLabel", { id: roomId.slice(0, 6) })}
+            </p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
+          <LanguageSwitcher />
+
           <button
             onClick={copyRoomLink}
             className="flex items-center gap-2 px-4 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 rounded-xl text-sm font-semibold transition-all active:scale-95"
           >
             {copying ? <CheckCheck className="w-4 h-4 text-green-500" /> : <Share2 className="w-4 h-4" />}
-            <span className="hidden sm:inline">{copying ? "Copiado!" : "Convidar Equipe"}</span>
+            <span className="hidden sm:inline">{copying ? t("room.copied") : t("room.copyInvite")}</span>
           </button>
           
           <button
             onClick={() => router.push("/")}
             className="p-2 text-slate-500 hover:text-red-400 hover:bg-red-400/10 rounded-xl transition-all"
-            title="Sair da Sala"
+            title={t("room.leaveRoom")}
           >
             <LogOut className="w-5 h-5" />
           </button>
@@ -159,12 +166,15 @@ export default function Room({ params }: { params: Promise<{ id: string }> }) {
               {users.length === 0 ? (
                 <div className="flex flex-col items-center gap-4 text-slate-500">
                   <Users className="w-12 h-12 opacity-20" />
-                  <p className="font-medium">Esperando equipe entrar...</p>
+                  <p className="font-medium">{t("room.waitingTeam")}</p>
                 </div>
               ) : !revealed ? (
                 <div className="space-y-4">
                   <div className="px-6 py-2 bg-slate-800/50 rounded-full border border-slate-700 text-sm font-bold text-slate-400 uppercase tracking-widest">
-                    {users.filter(u => u.vote !== null).length} / {users.length} votos
+                    {t("room.votesCount", {
+                      voted: users.filter((u) => u.vote !== null).length,
+                      total: users.length,
+                    })}
                   </div>
                   <button
                     onClick={revealVotes}
@@ -172,14 +182,14 @@ export default function Room({ params }: { params: Promise<{ id: string }> }) {
                     className="px-8 py-4 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:grayscale text-white text-lg font-black rounded-2xl transition-all shadow-xl shadow-blue-900/40 hover:-translate-y-1 flex items-center gap-3 active:scale-95"
                   >
                     <Eye className="w-5 h-5" />
-                    REVELAR VOTOS
+                    {t("room.revealVotes")}
                   </button>
                 </div>
               ) : (
                 <div className="space-y-4">
                   {stats && (
                     <div className="bg-slate-800/80 px-8 py-4 rounded-3xl border border-slate-700 shadow-2xl flex flex-col items-center">
-                      <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-1">Média</p>
+                      <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-1">{t("room.average")}</p>
                       <div className="text-4xl font-black text-blue-500">
                         {stats.avg}
                       </div>
@@ -190,7 +200,7 @@ export default function Room({ params }: { params: Promise<{ id: string }> }) {
                     className="px-8 py-4 bg-white hover:bg-slate-100 text-slate-950 text-lg font-black rounded-2xl transition-all shadow-xl active:scale-95 flex items-center gap-3"
                   >
                     <RefreshCw className="w-5 h-5" />
-                    NOVA RODADA
+                    {t("room.newRound")}
                   </button>
                 </div>
               )}
@@ -223,11 +233,11 @@ export default function Room({ params }: { params: Promise<{ id: string }> }) {
             <div className="flex items-center justify-between px-2">
               <h3 className="font-bold text-slate-400 flex items-center gap-2 text-sm">
                 <Trophy className="w-4 h-4 text-yellow-500" />
-                Sua Estimativa
+                {t("room.yourEstimate")}
               </h3>
               {currentUser?.vote && (
                 <span className="text-xs font-black text-blue-500 uppercase tracking-widest animate-in fade-in duration-300">
-                  Selecionado: {currentUser.vote}
+                  {t("room.selected", { value: currentUser.vote })}
                 </span>
               )}
             </div>

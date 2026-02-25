@@ -3,6 +3,7 @@
 import { Check } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { useTranslation } from "react-i18next";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -16,6 +17,7 @@ interface UserAvatarProps {
 }
 
 export default function UserAvatar({ name, vote, revealed, isCurrentUser }: UserAvatarProps) {
+  const { t } = useTranslation();
   const initials = name
     .split(" ")
     .map((n) => n[0])
@@ -65,11 +67,11 @@ export default function UserAvatar({ name, vote, revealed, isCurrentUser }: User
           "text-sm font-medium transition-colors",
           isCurrentUser ? "text-blue-400" : "text-slate-300"
         )}>
-          {name} {isCurrentUser && "(Você)"}
+          {name} {isCurrentUser && `(${t("user.you")})`}
         </span>
         {hasVoted && !revealed && (
           <span className="text-[10px] text-green-500 font-bold uppercase tracking-wider animate-pulse">
-            Votou
+            {t("user.voted")}
           </span>
         )}
       </div>
