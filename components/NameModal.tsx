@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { User } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface NameModalProps {
   onJoin: (name: string) => void;
@@ -11,6 +12,7 @@ interface NameModalProps {
 export default function NameModal({ onJoin, isOpen }: NameModalProps) {
   const [name, setName] = useState("");
   const [isBrowser, setIsBrowser] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -40,8 +42,8 @@ export default function NameModal({ onJoin, isOpen }: NameModalProps) {
           </div>
 
           <div className="text-center space-y-2">
-            <h2 className="text-2xl font-bold text-white tracking-tight">Bem-vindo à sala!</h2>
-            <p className="text-slate-400">Como você gostaria de ser chamado na mesa?</p>
+            <h2 className="text-2xl font-bold text-white tracking-tight">{t("modal.welcome")}</h2>
+            <p className="text-slate-400">{t("modal.question")}</p>
           </div>
 
           <form onSubmit={handleSubmit} className="w-full space-y-4">
@@ -49,7 +51,7 @@ export default function NameModal({ onJoin, isOpen }: NameModalProps) {
               <input
                 autoFocus
                 type="text"
-                placeholder="Ex: João Silva"
+                placeholder={t("modal.placeholder")}
                 className="w-full h-14 bg-slate-800 border-2 border-slate-700 rounded-xl px-4 text-white focus:outline-none focus:border-blue-500 transition-all text-lg placeholder:text-slate-500"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -61,7 +63,7 @@ export default function NameModal({ onJoin, isOpen }: NameModalProps) {
               type="submit"
               className="w-full h-14 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:hover:bg-blue-600 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-900/20 active:scale-95 flex items-center justify-center gap-2 group"
             >
-              Entrar na Sala
+              {t("modal.joinRoom")}
               <span className="group-hover:translate-x-1 transition-transform">→</span>
             </button>
           </form>
